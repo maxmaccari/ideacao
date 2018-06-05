@@ -19,8 +19,9 @@ defmodule IdeacaoWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", IdeacaoWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", IdeacaoWeb do
+    pipe_through :api
+
+    resources "/ideas", IdeaController, except: [:new, :edit]
+  end
 end

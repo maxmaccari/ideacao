@@ -7,6 +7,7 @@ defmodule Ideacao.Accounts.User do
     field :email, :string
     field :encrypted_password, :string
     field :name, :string
+    has_many :ideas, Ideacao.Ideas.Idea, foreign_key: :author_id
 
     timestamps()
   end
