@@ -118,6 +118,19 @@ defmodule Ideacao.Ideas do
   end
 
   @doc """
+  Returns the list of feedbacks by idea.
+
+  ## Examples
+
+      iex> list_feedbacks(idea)
+      [%Feedback{}, ...]
+
+  """
+  def list_feedbacks(idea = %Idea{}) do
+    Repo.all(Feedback.by_idea(idea))
+  end
+
+  @doc """
   Gets a single feedback.
 
   Raises `Ecto.NoResultsError` if the Feedback does not exist.
@@ -132,6 +145,24 @@ defmodule Ideacao.Ideas do
 
   """
   def get_feedback!(id), do: Repo.get!(Feedback, id)
+
+  @doc """
+  Gets a single feedback linked to an idea.
+
+  Raises `Ecto.NoResultsError` if the Feedback does not exist.
+
+  ## Examples
+
+      iex> get_feedback!(idea, 123)
+      %Feedback{}
+
+      iex> get_feedback!(idea, 456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_feedback!(idea = %Idea{}, id) do
+    Repo.get!(Feedback.by_idea(idea), id)
+  end
 
   @doc """
   Creates a feedback.
@@ -196,5 +227,16 @@ defmodule Ideacao.Ideas do
   """
   def change_feedback(%Feedback{} = feedback) do
     Feedback.changeset(feedback, %{})
+  end
+
+  @doc """
+  Preloads an user for a feedback query
+
+  ## Examples
+    iex> get_feedback!(123) |> preload_user
+      %Feedback{}
+  """
+  def preload_user(query) do
+    Repo.preload(query, :user)
   end
 end

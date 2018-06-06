@@ -23,8 +23,7 @@ defmodule IdeacaoWeb.Router do
     pipe_through :api
 
     resources "/ideas", IdeaController, except: [:new, :edit] do
-      resources "/feedbacks", FeedbackController, except: [:new, :edit, :show]
+      resources "/feedbacks", FeedbackController, except: [:new, :edit]
     end
-    resources "/feedbacks", FeedbackController, except: [:new, :edit]
   end
 end
