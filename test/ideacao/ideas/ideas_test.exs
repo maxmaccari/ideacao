@@ -75,4 +75,74 @@ defmodule Ideacao.IdeasTest do
       assert %Ecto.Changeset{} = Ideas.change_idea(idea)
     end
   end
+
+  describe "feedbacks" do
+    alias Ideacao.Ideas.Feedback
+
+    @valid_attrs %{comment: "some comment", rate: 6}
+    @update_attrs %{comment: "some updated comment", rate: 7}
+    @invalid_attrs %{comment: nil, rate: -1}
+
+    def feedback_fixture(attrs \\ %{}) do
+      {:ok, feedback} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Ideas.create_feedback()
+
+      feedback
+    end
+
+    test "list_feedbacks/0 returns all feedbacks", %{user: user} do
+      idea = idea_fixture(author_id: user.id)
+      feedback = feedback_fixture(user_id: user.id, idea_id: idea.id)
+      assert Ideas.list_feedbacks() == [feedback]
+    end
+
+    test "get_feedback!/1 returns the feedback with given id", %{user: user} do
+      idea = idea_fixture(author_id: user.id)
+      feedback = feedback_fixture(user_id: user.id, idea_id: idea.id)
+      assert Ideas.get_feedback!(feedback.id) == feedback
+    end
+
+    test "create_feedback/1 with valid data creates a feedback", %{user: user} do
+      idea = idea_fixture(author_id: user.id)
+      valid_attrs = Map.merge(@valid_attrs, %{user_id: user.id, idea_id: idea.id})
+      assert {:ok, %Feedback{} = feedback} = Ideas.create_feedback(valid_attrs)
+      assert feedback.comment == "some comment"
+      assert feedback.rate == 6
+    end
+
+    test "create_feedback/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Ideas.create_feedback(@invalid_attrs)
+    end
+
+    test "update_feedback/2 with valid data updates the feedback", %{user: user} do
+      idea = idea_fixture(author_id: user.id)
+      feedback = feedback_fixture(user_id: user.id, idea_id: idea.id)
+      assert {:ok, feedback} = Ideas.update_feedback(feedback, @update_attrs)
+      assert %Feedback{} = feedback
+      assert feedback.comment == "some updated comment"
+      assert feedback.rate == 7
+    end
+
+    test "update_feedback/2 with invalid data returns error changeset", %{user: user} do
+      idea = idea_fixture(author_id: user.id)
+      feedback = feedback_fixture(user_id: user.id, idea_id: idea.id)
+      assert {:error, %Ecto.Changeset{}} = Ideas.update_feedback(feedback, @invalid_attrs)
+      assert feedback == Ideas.get_feedback!(feedback.id)
+    end
+
+    test "delete_feedback/1 deletes the feedback", %{user: user} do
+      idea = idea_fixture(author_id: user.id)
+      feedback = feedback_fixture(user_id: user.id, idea_id: idea.id)
+      assert {:ok, %Feedback{}} = Ideas.delete_feedback(feedback)
+      assert_raise Ecto.NoResultsError, fn -> Ideas.get_feedback!(feedback.id) end
+    end
+
+    test "change_feedback/1 returns a feedback changeset", %{user: user} do
+      idea = idea_fixture(author_id: user.id)
+      feedback = feedback_fixture(user_id: user.id, idea_id: idea.id)
+      assert %Ecto.Changeset{} = Ideas.change_feedback(feedback)
+    end
+  end
 end

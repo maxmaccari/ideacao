@@ -9,6 +9,7 @@ defmodule Ideacao.Ideas.Idea do
     field :problem, :string
     field :target, :string
     belongs_to :author, Ideacao.Accounts.User
+    has_many :feedbacks, Ideacao.Ideas.Feedback
 
     timestamps()
   end
