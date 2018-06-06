@@ -19,13 +19,43 @@ Permitir uma equipe compartilhar e avaliar ideias em conjunto.
 
 ## Roadmap
   * Gerar o projeto Phoenix [concluído];
-  * Idealizar e criar os modelos e estrutura de dados inicial do projeto;
-  * Criar os Endpoints da API que irão expor os dados (cobertos por testes);
-  * Adicionar uma camada segurança na aplicação através de autenticação de usuário;
+  * Idealizar e criar os modelos e estrutura de dados inicial do projeto [concluído];
+  * Criar os Endpoints da API que irão expor os dados (cobertos por testes) [concluído];
+  * Adicionar uma camada segurança na aplicação através de autenticação de usuário [concluído];
   * Instalar o VueJS e o Vuetify;
   * Idealizar e criar as telas que consumirão a API do projeto;
 
+### Modelos Futuros
+  ```
+  Team
+    - name : String
+    - logo : String
+
+  Membership
+    - user : User
+    - team : Team
+    - role : String
+
+  Revision
+    - user : User
+    - idea : Idea
+    - revision_number : Integer
+    - relevancy_rate : Integer
+    - relevancy_description : Text
+    - market_rate : Integer
+    - market_description : Text
+    - target_revision : Text
+    - problem_revision : Text
+    - description_revision : Text
+
+  Comment
+    - user : User
+    - idea : Idea
+    - content : Text
+  ```
+
 ## Roadmap Secundário
+  * Cada ideia deverá ser relacionada a uma equipe;
   * Adicionar funcionalidade de criação de equipes, registro de usuário, convites de usuário e recuperação de senha;
   * Adicionar testes para o Front End;
   * Pensar em recursos legais para usar em startups;
