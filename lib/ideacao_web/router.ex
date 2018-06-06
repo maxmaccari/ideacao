@@ -13,14 +13,23 @@ defmodule IdeacaoWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug IdeacaoWeb.Auth.Pipeline
+  end
+
   scope "/", IdeacaoWeb do
     pipe_through :browser # Use the default browser stack
-
     get "/", PageController, :index
   end
 
   scope "/api", IdeacaoWeb do
     pipe_through :api
+
+    post "/users/sign_in", AuthController, :sign_in
+  end
+
+  scope "/api", IdeacaoWeb do
+    pipe_through [:api, :auth]
 
     resources "/ideas", IdeaController, except: [:new, :edit] do
       resources "/feedbacks", FeedbackController, except: [:new, :edit]

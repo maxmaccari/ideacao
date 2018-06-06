@@ -12,6 +12,9 @@ defmodule IdeacaoWeb.IdeaController do
   end
 
   def create(conn, %{"idea" => idea_params}) do
+    author = current_user(conn)
+    idea_params = Map.put(idea_params, "author_id", author.id)
+
     with {:ok, %Idea{} = idea} <- Ideas.create_idea(idea_params) do
       conn
       |> put_status(:created)
@@ -35,6 +38,7 @@ defmodule IdeacaoWeb.IdeaController do
 
   def delete(conn, %{"id" => id}) do
     idea = Ideas.get_idea!(id)
+
     with {:ok, %Idea{}} <- Ideas.delete_idea(idea) do
       send_resp(conn, :no_content, "")
     end

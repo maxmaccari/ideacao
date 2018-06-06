@@ -13,7 +13,10 @@ defmodule IdeacaoWeb.FeedbackController do
   end
 
   def create(conn, %{"idea_id" => idea_id, "feedback" => feedback_params}) do
-    feedback_params = Map.put(feedback_params, "idea_id", idea_id)
+    user = current_user(conn)
+    feedback_params = Map.merge(feedback_params, %{"idea_id" => idea_id,
+                                                   "user_id" => user.id})
+
     with {:ok, %Feedback{} = feedback} <- Ideas.create_feedback(feedback_params) do
       feedback = Ideas.preload_user(feedback)
       conn

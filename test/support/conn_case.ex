@@ -23,6 +23,15 @@ defmodule IdeacaoWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint IdeacaoWeb.Endpoint
+
+      def put_auth_token(conn, token) do
+        put_req_header(conn, "authorization", "Bearer #{token}")
+      end
+
+      def authenticated_conn(token) do
+        build_conn()
+        |> put_auth_token(token)
+      end
     end
   end
 

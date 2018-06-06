@@ -3,8 +3,10 @@ defmodule Ideacao.IdeasTest do
 
   alias Ideacao.Ideas
 
+  @user_attrs %{name: "User Test", email: "user@example.com", password: "123456", password_confirmation: "123456"}
+
   setup do
-    {:ok, user} = Ideacao.Accounts.create_user %{name: "User Test", email: "user@example.com"}
+    {:ok, user} = Ideacao.Accounts.create_user(@user_attrs)
 
     [user: user]
   end

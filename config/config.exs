@@ -22,6 +22,10 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:user_id]
 
+config :ideacao, IdeacaoWeb.Auth.Guardian,
+  issuer: "ideacao",
+  secret_key: "lL3bQVEa6U0vpL/uGqlw2xyIVnPJQ4I3Q4nfQ8HizZAHN28WE/II+tOk3GooyB2g"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

@@ -11,7 +11,9 @@ defmodule IdeacaoWeb.IdeaControllerTest do
 
   def fixture(:user) do
     timestamp = :os.system_time(:micro_seconds)
-    {:ok, user} = Accounts.create_user %{name: "User Test", email: "user#{timestamp}@example.com"}
+    {:ok, user} = Accounts.create_user %{name: "User Test", email: "user#{timestamp}@example.com",
+                                         password: "123456", password_confirmation: "123456"}
+
     user
   end
 
@@ -22,7 +24,14 @@ defmodule IdeacaoWeb.IdeaControllerTest do
   end
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json"), user: fixture(:user)}
+    user = fixture(:user)
+    {:ok, token, _} = IdeacaoWeb.Auth.Guardian.encode_and_sign(user)
+
+    conn = conn
+      |> put_req_header("accept", "application/json")
+      |> put_auth_token(token)
+
+    {:ok, conn: conn, user: user, token: token}
   end
 
   describe "index" do
@@ -33,12 +42,11 @@ defmodule IdeacaoWeb.IdeaControllerTest do
   end
 
   describe "create idea" do
-    test "renders idea when data is valid", %{conn: conn, user: user} do
-      create_attrs = Map.put(@create_attrs, :author_id, user.id)
-      conn = post conn, idea_path(conn, :create), idea: create_attrs
+    test "renders idea when data is valid", %{conn: conn, token: token} do
+      conn = post conn, idea_path(conn, :create), idea: @create_attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get conn, idea_path(conn, :show, id)
+      conn = get authenticated_conn(token), idea_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
         "description" => "some description",
@@ -56,11 +64,11 @@ defmodule IdeacaoWeb.IdeaControllerTest do
   describe "update idea" do
     setup [:create_idea]
 
-    test "renders idea when data is valid", %{conn: conn, idea: %Idea{id: id} = idea} do
+    test "renders idea when data is valid", %{conn: conn, idea: %Idea{id: id} = idea, token: token} do
       conn = put conn, idea_path(conn, :update, idea), idea: @update_attrs
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get conn, idea_path(conn, :show, id)
+      conn = get authenticated_conn(token), idea_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
         "description" => "some updated description",
@@ -78,11 +86,11 @@ defmodule IdeacaoWeb.IdeaControllerTest do
   describe "delete idea" do
     setup [:create_idea]
 
-    test "deletes chosen idea", %{conn: conn, idea: idea} do
+    test "deletes chosen idea", %{conn: conn, idea: idea, token: token} do
       conn = delete conn, idea_path(conn, :delete, idea)
       assert response(conn, 204)
       assert_error_sent 404, fn ->
-        get conn, idea_path(conn, :show, idea)
+        get authenticated_conn(token), idea_path(conn, :show, idea)
       end
     end
   end

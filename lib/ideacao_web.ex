@@ -23,6 +23,8 @@ defmodule IdeacaoWeb do
       import Plug.Conn
       import IdeacaoWeb.Router.Helpers
       import IdeacaoWeb.Gettext
+
+      import IdeacaoWeb.Auth
     end
   end
 
