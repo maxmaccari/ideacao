@@ -26,6 +26,7 @@ defmodule IdeacaoWeb.Router do
     pipe_through :api
 
     post "/users/sign_in", AuthController, :sign_in
+    resources "/users", UserController, only: [:create]
   end
 
   scope "/api", IdeacaoWeb do
@@ -34,5 +35,8 @@ defmodule IdeacaoWeb.Router do
     resources "/ideas", IdeaController, except: [:new, :edit] do
       resources "/feedbacks", FeedbackController, except: [:new, :edit]
     end
+
+    put "/user", UserController, :update
+    resources "/users", UserController, only: [:index, :show]
   end
 end
