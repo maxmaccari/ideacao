@@ -13,5 +13,6 @@ defmodule Ideacao.Repo.Migrations.CreateFeedbacks do
 
     create index(:feedbacks, [:user_id])
     create index(:feedbacks, [:idea_id])
+    create unique_index(:feedbacks, [:user_id, :idea_id])
   end
 end

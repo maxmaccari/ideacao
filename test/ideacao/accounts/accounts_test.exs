@@ -6,8 +6,8 @@ defmodule Ideacao.AccountsTest do
   describe "users" do
     alias Ideacao.Accounts.User
 
-    @valid_attrs %{email: "some email", password: "123456", password_confirmation: "123456", name: "some name"}
-    @update_attrs %{email: "some updated email", name: "some updated name", password: "654321",
+    @valid_attrs %{email: "user@example.com", password: "123456", password_confirmation: "123456", name: "some name"}
+    @update_attrs %{email: "updated_user@example.com", name: "some updated name", password: "654321",
                     password_confirmation: "654321"}
     @invalid_attrs %{email: nil, password: "123", password_confirmation: nil, name: nil}
 
@@ -32,7 +32,7 @@ defmodule Ideacao.AccountsTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
-      assert user.email == "some email"
+      assert user.email == "user@example.com"
       assert user.name == "some name"
     end
 
@@ -44,7 +44,7 @@ defmodule Ideacao.AccountsTest do
       old_user = user_fixture()
       assert {:ok, user} = Accounts.update_user(old_user, @update_attrs)
       assert %User{} = user
-      assert user.email == "some updated email"
+      assert user.email == "updated_user@example.com"
       assert user.name == "some updated name"
       assert user.encrypted_password == old_user.encrypted_password
     end
@@ -59,7 +59,7 @@ defmodule Ideacao.AccountsTest do
       old_user = user_fixture()
       assert {:ok, user} = Accounts.update_user_registration(old_user, @update_attrs)
       assert %User{} = user
-      assert user.email == "some updated email"
+      assert user.email == "updated_user@example.com"
       assert user.name == "some updated name"
       refute user.encrypted_password == old_user.encrypted_password
     end
@@ -82,7 +82,7 @@ defmodule Ideacao.AccountsTest do
 
     test "authenticate_user/2 with correct credentials returns the user" do
       user = user_fixture()
-      assert Accounts.authenticate_user("some email", "123456") == {:ok, user}
+      assert Accounts.authenticate_user("user@example.com", "123456") == {:ok, user}
     end
 
     test "authenticate_user/2 with incorrect credentials returns an error" do
