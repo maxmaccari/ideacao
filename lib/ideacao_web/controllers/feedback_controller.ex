@@ -6,6 +6,8 @@ defmodule IdeacaoWeb.FeedbackController do
 
   action_fallback IdeacaoWeb.FallbackController
 
+  plug :load_feedback when action in [:update, :delete]
+
   def index(conn, %{"idea_id" => idea_id}) do
     idea = Ideas.get_idea!(idea_id)
     feedbacks = Ideas.list_feedbacks(idea) |> Ideas.preload_user
@@ -32,20 +34,34 @@ defmodule IdeacaoWeb.FeedbackController do
     render(conn, "show.json", feedback: feedback)
   end
 
-  def update(conn, %{"idea_id" => idea_id, "id" => id, "feedback" => feedback_params}) do
-    idea = Ideas.get_idea!(idea_id)
-    feedback = Ideas.get_feedback!(idea, id) |> Ideas.preload_user
+  def update(conn, %{"feedback" => feedback_params}) do
+    feedback = conn.assigns[:feedback] |> Ideas.preload_user
 
     with {:ok, %Feedback{} = feedback} <- Ideas.update_feedback(feedback, feedback_params) do
       render(conn, "show.json", feedback: feedback)
     end
   end
 
-  def delete(conn, %{"idea_id" => idea_id, "id" => id}) do
-    idea = Ideas.get_idea!(idea_id)
-    feedback = Ideas.get_feedback!(idea, id)
+  def delete(conn, _params) do
+    feedback = conn.assigns[:feedback]
+
     with {:ok, %Feedback{}} <- Ideas.delete_feedback(feedback) do
       send_resp(conn, :no_content, "")
+    end
+  end
+
+  defp load_feedback(conn, _) do
+    %{"idea_id" => idea_id, "id" => id} = conn.params
+    idea = Ideas.get_idea!(idea_id)
+    user = current_user(conn)
+
+    case Ideas.get_feedback(idea, user, id) do
+      {:ok, feedback} -> assign(conn, :feedback, feedback)
+      {:error, :not_found} ->
+        conn
+        |> put_status(:unauthorized)
+        |> render(IdeacaoWeb.ErrorView, "error.json", message: "The user is not authorized to perform this action.")
+        |> halt()
     end
   end
 end

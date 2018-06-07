@@ -90,15 +90,15 @@ defmodule IdeacaoWeb.FeedbackControllerTest do
       assert json_response(conn, 422)["errors"] != %{}
     end
 
-    # test "cannot update another user feedback", %{conn: conn, idea: idea} do
-    #   user = fixture(:user)
-    #   feedback = fixture(:feedback, user, idea)
+    test "cannot update another user feedback", %{conn: conn, idea: idea} do
+      user = fixture(:user)
+      feedback = fixture(:feedback, user, idea)
 
-    #   assert_error_sent 401, fn ->
-    #     put conn, idea_feedback_path(conn, :update, idea, feedback), feedback: @update_attrs
-    #   end
-    #   assert Ideas.get_feedback!(feedback.id) == feedback
-    # end
+      conn = put conn, idea_feedback_path(conn, :update, idea, feedback), feedback: @update_attrs
+
+      assert json_response(conn, 401)["errors"] != %{}
+      assert Ideas.get_feedback!(feedback.id) == feedback
+    end
   end
 
   describe "delete feedback" do
@@ -112,21 +112,19 @@ defmodule IdeacaoWeb.FeedbackControllerTest do
       end
     end
 
-    # test "cannot delete another user feedback", %{conn: conn, idea: idea} do
-    #   user = fixture(:user)
-    #   feedback = fixture(:feedback, user, idea)
+    test "cannot delete another user feedback", %{conn: conn, idea: idea} do
+      user = fixture(:user)
+      feedback = fixture(:feedback, user, idea)
 
-    #   assert_error_sent 401, fn ->
-    #     delete conn, idea_feedback_path(conn, :delete, idea, feedback)
-    #   end
-    #   assert Ideas.get_feedback!(feedback.id) == feedback
-    # end
+      conn = delete conn, idea_feedback_path(conn, :delete, idea, feedback)
+      assert json_response(conn, 401)["errors"] != %{}
+      assert Ideas.get_feedback!(feedback.id) == feedback
+    end
   end
 
-  defp create_feedback(_) do
-    user = fixture(:user)
-    idea = fixture(:idea, user)
+  defp create_feedback(%{user: user, idea: idea}) do
     feedback = fixture(:feedback, user, idea)
-    {:ok, feedback: feedback, user: user, idea: idea}
+
+    {:ok, feedback: feedback}
   end
 end

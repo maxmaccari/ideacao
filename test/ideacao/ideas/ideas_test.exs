@@ -120,6 +120,15 @@ defmodule Ideacao.IdeasTest do
       assert Ideas.get_feedback!(idea, feedback.id) == feedback
     end
 
+    test "get_feedback!/2 returns the feedback with given id from an idea belongings to an user", %{user: user} do
+      idea = idea_fixture(author_id: user.id)
+      feedback = feedback_fixture(user_id: user.id, idea_id: idea.id)
+      idea2 = idea_fixture(author_id: user.id)
+
+      assert Ideas.get_feedback(idea, user, feedback.id) == {:ok, feedback}
+      assert Ideas.get_feedback(idea2, user, feedback.id) == {:error, :not_found}
+    end
+
     test "create_feedback/1 with valid data creates a feedback", %{user: user} do
       idea = idea_fixture(author_id: user.id)
       valid_attrs = Map.merge(@valid_attrs, %{user_id: user.id, idea_id: idea.id})

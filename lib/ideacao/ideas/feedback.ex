@@ -4,7 +4,7 @@ defmodule Ideacao.Ideas.Feedback do
   import Ecto.Query
 
   alias Ideacao.Ideas.{Idea, Feedback}
-
+  alias Ideacao.Accounts.User
 
   schema "feedbacks" do
     field :comment, :string
@@ -26,5 +26,9 @@ defmodule Ideacao.Ideas.Feedback do
 
   def by_idea(idea = %Idea{}) do
     from f in Feedback, where: f.idea_id == ^idea.id
+  end
+
+  def by_idea_and_user(idea = %Idea{}, user = %User{}) do
+    from f in Feedback, where: f.idea_id == ^idea.id and f.user_id == ^user.id
   end
 end

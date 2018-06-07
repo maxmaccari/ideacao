@@ -103,6 +103,7 @@ defmodule Ideacao.Ideas do
   end
 
   alias Ideacao.Ideas.Feedback
+  alias Ideacao.Accounts.User
 
   @doc """
   Returns the list of feedbacks.
@@ -162,6 +163,27 @@ defmodule Ideacao.Ideas do
   """
   def get_feedback!(idea = %Idea{}, id) do
     Repo.get!(Feedback.by_idea(idea), id)
+  end
+
+  @doc """
+  Gets a single feedback linked to an idea belonging to an user.
+
+  Return {:error, :not_found} if the Feedback does not exist.
+
+  ## Examples
+
+      iex> get_feedback(idea, user, 123)
+      {:ok, %Feedback{}}
+
+      iex> get_feedback!(idea, user, 456)
+      {:error, :not_found}
+
+  """
+  def get_feedback(idea = %Idea{}, user = %User{}, id) do
+    case Repo.get(Feedback.by_idea_and_user(idea, user), id) do
+      feedback = %Feedback{} -> {:ok, feedback}
+      nil -> {:error, :not_found}
+    end
   end
 
   @doc """
