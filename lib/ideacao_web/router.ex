@@ -3,10 +3,6 @@ defmodule IdeacaoWeb.Router do
 
   pipeline :browser do
     plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
   end
 
   pipeline :api do
@@ -15,11 +11,6 @@ defmodule IdeacaoWeb.Router do
 
   pipeline :auth do
     plug IdeacaoWeb.Auth.Pipeline
-  end
-
-  scope "/", IdeacaoWeb do
-    pipe_through :browser # Use the default browser stack
-    get "/", PageController, :index
   end
 
   scope "/api", IdeacaoWeb do
@@ -38,5 +29,11 @@ defmodule IdeacaoWeb.Router do
 
     put "/user", UserController, :update
     resources "/users", UserController, only: [:index, :show]
+  end
+
+  scope "/", IdeacaoWeb do
+    pipe_through :browser # Use the default browser stack
+
+    forward "/", StaticPlug
   end
 end
