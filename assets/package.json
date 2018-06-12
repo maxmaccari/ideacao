@@ -4,17 +4,18 @@
   "private": true,
   "scripts": {
     "lint": "vue-cli-service lint",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --dest=../priv/static",
-    "watch": "vue-cli-service build --dest=../priv/static --mode=development --watch"
+    "watch": "vue-cli-service build --dest=../priv/static --mode=development --watch --inline --hot --stdin --colors"
   },
   "dependencies": {
-    "vue": "^2.5.16",
     "phoenix": "file:../deps/phoenix",
-    "phoenix_html": "file:../deps/phoenix_html"
+    "phoenix_html": "file:../deps/phoenix_html",
+    "vue": "^2.5.16"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.15",
-    "@vue/cli-plugin-eslint": "^3.0.0-beta.15",
+    "@vue/cli-plugin-eslint": "^3.0.0-beta.16",
     "@vue/cli-service": "^3.0.0-beta.15",
     "vue-template-compiler": "^2.5.16"
   },
@@ -27,7 +28,26 @@
       "plugin:vue/essential",
       "eslint:recommended"
     ],
-    "rules": {},
+    "rules": {
+      "vue/attribute-hyphenation": [
+        "error",
+        "always"
+      ],
+      "vue/html-end-tags": "error",
+      "vue/html-indent": [
+        "error",
+        2
+      ],
+      "vue/html-self-closing": "error",
+      "vue/require-default-prop": "error",
+      "vue/require-prop-types": "error",
+      "vue/attributes-order": "error",
+      "vue/html-quotes": [
+        "error",
+        "double"
+      ],
+      "vue/order-in-components": "error"
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
