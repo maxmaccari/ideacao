@@ -9,6 +9,7 @@
     "watch": "vue-cli-service build --dest=../priv/static --mode=development --watch --inline --hot --stdin --colors"
   },
   "dependencies": {
+    "materialize-css": "^1.0.0-rc.1",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
     "vue": "^2.5.16"
