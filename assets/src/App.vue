@@ -62,67 +62,13 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <div class="row">
-        <div class="col s12 m4 offset-m4">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Login</span>
-              <form action="#">
-                <div class="input-field">
-                  <input id="email" type="email" name="email" required>
-                  <label for="email">Email</label>
-                </div>
-
-                <div class="input-field">
-                  <input id="password" type="password" name="password" required>
-                  <label for="password">Senha</label>
-                </div>
-
-                <button class="btn" @click.prevent="loginUser">Login</button>
-              </form>
-            </div>
-            <div class="card-action">
-              <a href="#" @click.prevent="newUserModal.open()">Me Cadastrar</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="newUserModal" class="modal">
-        <div class="modal-content">
-          <h4>Cadastro</h4>
-          <form action="#">
-            <div class="input-field">
-              <input id="name" type="text" name="name" required>
-              <label for="name">Nome</label>
-            </div>
-
-            <div class="input-field">
-              <input type="email" name="email" required>
-              <label for="email">Email</label>
-            </div>
-
-            <div class="input-field">
-              <input type="password" name="password" required>
-              <label for="password">Senha</label>
-            </div>
-
-            <div class="input-field">
-              <input type="password" name="password_confirmation" required>
-              <label for="password_confirmation">Confirme a sua Senha</label>
-            </div>
-
-
-            <button class="btn" @click.prevent="loginUser">Confirmar</button>
-          </form>
-        </div>
-      </div>
-    </div>
+    <login-view v-else @login="loginUser"></login-view>
   </div>
 </template>
 
 <script>
 import M from 'materialize-css'
+import LoginView from '@/views/LoginView'
 
 const ideas = [
   {
@@ -173,6 +119,9 @@ const ideas = [
 
 export default {
   name: 'app',
+  components: {
+    LoginView
+  },
   data () {
     return {
       ideas: ideas,
@@ -182,15 +131,14 @@ export default {
         description: "",
         feedbacks: {count: 0, rating: 0, users: []}
       },
-      currentUser: {
-        id: 1,
-        name: "Maxsuel"
-      },
-      // currentUser: null,
+      // currentUser: {
+      //   id: 1,
+      //   name: "Maxsuel"
+      // },
+      currentUser: null,
       newIdeaModal: null,
       newFeedbackModal: null,
-      showFeedbacksModal: null,
-      newUserModal: null
+      showFeedbacksModal: null
     }
   },
   computed: {
@@ -206,7 +154,7 @@ export default {
   mounted () {
     // this.loginUser()
 
-    ["newIdeaModal", "newFeedbackModal", "showFeedbacksModal", "newUserModal"]
+    ["newIdeaModal", "newFeedbackModal", "showFeedbacksModal"]
       .forEach( name => {
         const vm = this
         const elem = document.getElementById(name)
@@ -239,11 +187,8 @@ export default {
     canGiveFeedback (idea) {
       return !idea.feedbacks.users.some(user => user.id == this.currentUser.id);
     },
-    loginUser () {
-      this.currentUser = {
-        id: 1,
-        name: "Maxsuel"
-      }
+    loginUser (user) {
+      this.currentUser = user
     }
   },
 }
