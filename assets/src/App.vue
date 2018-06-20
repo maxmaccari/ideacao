@@ -1,12 +1,11 @@
 <template>
   <div id="app">
-    <ideas-list-view v-if="loggedInUser" :ideas="ideas" :user="currentUser"></ideas-list-view>
-    <login-view v-else @login="loginUser"></login-view>
+    <ideas-list-view v-if="loggedInUser" :ideas="ideas" :user="currentUser"/>
+    <login-view v-else @login="loginUser"/>
   </div>
 </template>
 
 <script>
-import M from 'materialize-css'
 import IdeasListView from '@/views/IdeasListView'
 import LoginView from '@/views/LoginView'
 

@@ -20,54 +20,25 @@
             </form>
           </div>
           <div class="card-action">
-            <a href="#" @click.prevent="newUserModal.open()">Me Cadastrar</a>
+            <a href="#" @click.prevent="openModal = true">Me Cadastrar</a>
           </div>
         </div>
       </div>
     </div>
-    <div id="newUserModal" class="modal">
-      <div class="modal-content">
-        <h4>Cadastro</h4>
-        <form action="#">
-          <div class="input-field">
-            <input id="name" type="text" name="name" v-model="newUser.name" required>
-            <label for="name">Nome</label>
-          </div>
-
-          <div class="input-field">
-            <input type="email" name="email" v-model="newUser.email" required>
-            <label for="email">Email</label>
-          </div>
-
-          <div class="input-field">
-            <input type="password" name="password" v-model="newUser.password" required>
-            <label for="password">Senha</label>
-          </div>
-
-          <div class="input-field">
-            <input type="password" name="password_confirmation" v-model="newUser.passwordConfirmation" required>
-            <label for="password_confirmation">Confirme a sua Senha</label>
-          </div>
-
-
-          <button class="btn" @click.prevent="registerUser">Confirmar</button>
-        </form>
-      </div>
-    </div>
+    <register-user-modal v-if="openModal" @close="openModal=false" @register="registerUser"/>
   </div>
 </template>
 
 <script>
+import RegisterUserModal from "@/components/login/RegisterUserModal"
+
 export default {
+  components: {
+    RegisterUserModal
+  },
   data() {
     return {
-      newUserModal: null,
-      newUser: {
-        name: "",
-        email: "",
-        password: "",
-        passwordConfirmation: ""
-      }
+      openModal: false
     }
   },
   methods: {
@@ -77,17 +48,9 @@ export default {
         name: "Maxsuel"
       })
     },
-    registerUser () {
-      this.newUserModal.close()
-      this.$emit('login', this.newUser)
+    registerUser (user) {
+      this.$emit('login', user)
     }
-  },
-  mounted() {
-    const vm = this
-    const elem = document.getElementById("newUserModal")
-    const modal = M.Modal.init(elem)
-
-    this.newUserModal = modal;
   }
 }
 </script>
