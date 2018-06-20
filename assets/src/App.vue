@@ -69,11 +69,6 @@ export default {
     }
   },
   computed: {
-    isNewIdeaValid () {
-      return this.newIdea.title.length > 0 &&
-             this.newIdea.problem.length > 0 &&
-             this.newIdea.description.length > 0
-    },
     loggedInUser () {
       return !!this.currentUser
     }
