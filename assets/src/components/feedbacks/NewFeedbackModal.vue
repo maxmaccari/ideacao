@@ -12,12 +12,12 @@
               :increment="0.5"
               :max-rating="10"
               :star-size="40"
-              :roundedCorners="true"
+              :rounded-corners="true"
               :text-class="'rating-text'"
               :inline="true" />
-            <a href="#"
-               class="btn-floating btn-small waves-effect waves-light clear-rating waves-yellow amber"
-               @click="feedback.rating = 0" :class="{disabled: zeroRating}">
+            <a :class="{disabled: zeroRating}"
+               href="#"
+               class="btn-floating btn-small waves-effect waves-light clear-rating waves-yellow amber" @click="feedback.rating = 0">
               <i class="material-icons">delete</i>
             </a>
           </div>
@@ -62,6 +62,14 @@ export default {
       }
     }
   },
+  computed: {
+    zeroRating () {
+      return this.feedback.rating == 0
+    },
+    valid () {
+      return this.feedback.comment.length > 3
+    }
+  },
   mounted () {
     const vm = this
     const elem = document.getElementById("newFeedbackModal")
@@ -83,14 +91,6 @@ export default {
       }
     }
   },
-  computed: {
-    zeroRating () {
-      return this.feedback.rating == 0
-    },
-    valid () {
-      return this.feedback.comment.length > 3
-    }
-  }
 }
 </script>
 

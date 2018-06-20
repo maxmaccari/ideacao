@@ -1,15 +1,17 @@
 <template>
   <div id="app">
     <navbar-menu v-if="loggedInUser" :user="currentUser" @logout="logout"/>
-    <ideas-list-view v-if="loggedInUser" :ideas="ideas" :user="currentUser"/>
-    <login-view v-else @login="loginUser"/>
+    <ideas-list-view v-if="loggedInUser" :ideas="ideas" :user="currentUser" class="main"/>
+    <login-view  v-else class="main" @login="loginUser"/>
+    <app-footer/>
   </div>
 </template>
 
 <script>
-import NavbarMenu from "@/components/shared/NavbarMenu";
+import AppFooter from '@/components/shared/AppFooter'
 import IdeasListView from "@/views/IdeasListView";
 import LoginView from "@/views/LoginView";
+import NavbarMenu from "@/components/shared/NavbarMenu";
 
 const ideas = [
   {
@@ -86,6 +88,7 @@ const ideas = [
 export default {
   name: "app",
   components: {
+    AppFooter,
     IdeasListView,
     LoginView,
     NavbarMenu
@@ -113,4 +116,13 @@ export default {
 </script>
 
 <style>
+  body, #app {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  div.main {
+    flex: 1 0 auto;
+  }
 </style>

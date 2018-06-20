@@ -34,7 +34,11 @@ export default {
         title: "",
         problem: "",
         description: "",
-        feedbacks: {count: 0, rating: 0, users: []}
+        feedbacks: [],
+        author: {
+          id: 1,
+          name: "Maxsuel"
+        }
       },
       modal: null
     }

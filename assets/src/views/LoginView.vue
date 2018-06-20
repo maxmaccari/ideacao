@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col s12 m5 offset-m4">
-        <div class="card">
+      <div class="col s12 m8 offset-m2 l6 offset-l3 xl6 offset-xl3">
+        <div id="loginPanel" class="card">
           <div class="card-content">
             <span class="card-title">Login</span>
             <form action="#">
@@ -56,5 +56,13 @@ export default {
 </script>
 
 <style>
+   #loginPanel {
+      margin-top: 120px;
+    }
 
+  @media only screen and (min-width: 600px) {
+    #loginPanel {
+      margin-top: 150px;
+    }
+  }
 </style>
