@@ -1,10 +1,18 @@
 <template>
   <p class="right-align">
+    <span class="left">
+      <star-rating v-model="average"
+              :increment="0.01"
+              :readOnly="true"
+              :max-rating="10"
+              :star-size="20"
+              :roundedCorners="true"
+              :inline="true" />
+    </span>
     <span class="feedbacks">
       <span v-if="count > 0">
         <a href="#" @click.prevent="showFeedbacks = true" v-if="count > 1">{{count}} feedbacks</a>
-        <a href="#" @click.prevent="showFeedbacks = true" v-else>{{count}} feedback</a>
-        até o momento com a nota média de {{averageRating}}.
+        <a href="#" @click.prevent="showFeedbacks = true" v-else>{{count}} feedback</a> até o momento.
         <a v-if="canGiveFeedback(idea)" href="#" @click.prevent="newFeedback = true">
           Dê o seu feedback também!
         </a>
@@ -24,11 +32,13 @@
 <script>
 import NewFeedbackModal from '@/components/feedbacks/NewFeedbackModal'
 import ShowFeedbacksModal from '@/components/feedbacks/ShowFeedbacksModal'
+import StarRating from 'vue-star-rating'
 
 export default {
   components: {
     NewFeedbackModal,
-    ShowFeedbacksModal
+    ShowFeedbacksModal,
+    StarRating
   },
   props: {
     idea: {
@@ -50,7 +60,7 @@ export default {
     count () {
       return this.idea.feedbacks.length
     },
-    averageRating () {
+    average () {
       if (this.count > 0) {
         const sum = this.idea.feedbacks
           .reduce((sum, feedback) => sum + feedback.rating, 0)
