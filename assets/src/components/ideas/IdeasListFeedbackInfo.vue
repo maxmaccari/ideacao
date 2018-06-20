@@ -1,16 +1,23 @@
 <template>
   <p class="right-align">
     <span class="feedbacks">
-      {{idea.feedbacks.count}} feedbacks até o momento
-      <span v-if="idea.feedbacks.count > 0"> com a nota {{idea.feedbacks.rating}} por:
-        <a v-for="user in idea.feedbacks.users" :key="user.id" href="#" @click.prevent="showFeedbacks = true">
-          [{{user.name}}]
+      <span v-if="count > 0">
+        <a href="#" @click.prevent="showFeedbacks = true" v-if="count > 1">{{count}} feedbacks</a>
+        <a href="#" @click.prevent="showFeedbacks = true" v-else>{{count}} feedback</a>
+        até o momento com a nota média de {{averageRating}}.
+        <a v-if="canGiveFeedback(idea)" href="#" @click.prevent="newFeedback = true">
+          Dê o seu feedback também!
+        </a>
+      </span>
+      <span v-else>
+        Nenhum feedback até o momento.
+        <a v-if="canGiveFeedback(idea)" href="#" @click.prevent="newFeedback = true">
+          Seja o primeiro a dar um!
         </a>
       </span>
     </span>
-    <a v-if="canGiveFeedback(idea)" href="#" @click.prevent="newFeedback = true">Dar Feedback</a>
-    <show-feedbacks-modal v-if="showFeedbacks" @close="showFeedbacks = false"/>
-    <new-feedback-modal v-if="newFeedback" @close="newFeedback = false"/>
+    <show-feedbacks-modal :idea="idea" v-if="showFeedbacks" @close="showFeedbacks = false"/>
+    <new-feedback-modal :idea="idea" @add="addFeedback" v-if="newFeedback" @close="newFeedback = false"/>
   </p>
 </template>
 
@@ -39,9 +46,25 @@ export default {
       newFeedback: false
     }
   },
+  computed: {
+    count () {
+      return this.idea.feedbacks.length
+    },
+    averageRating () {
+      if (this.count > 0) {
+        const sum = this.idea.feedbacks
+          .reduce((sum, feedback) => sum + feedback.rating, 0)
+
+        return sum / this.count
+      }
+    }
+  },
   methods: {
     canGiveFeedback (idea) {
-      return !idea.feedbacks.users.some(user => user.id == this.user.id);
+      return !this.idea.feedbacks.some(feedback => feedback.user.id == this.user.id);
+    },
+    addFeedback (feedback) {
+      this.idea.feedbacks.push(feedback)
     }
   }
 }

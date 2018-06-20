@@ -12,7 +12,8 @@
     "materialize-css": "^1.0.0-rc.1",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "vue-star-rating": "^1.6.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.15",

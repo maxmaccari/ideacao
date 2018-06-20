@@ -19,11 +19,20 @@ const ideas = [
       "Colaboração de equipes no processo de validação de ideias e inovação",
     description:
       "Plataforma online para facilitar a colaboração de equipes no projeto",
-    feedbacks: {
-      count: 2,
-      rating: 8.3,
-      users: [{ name: "Maxsuel", id: 1 }, { name: "Mateus", id: 2 }]
-    }
+    feedbacks: [
+      {
+        id: 1,
+        rating: 8.5,
+        comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae minus iusto repudiandae recusandae, ullam, officiis odit totam expedita quas facere rerum alias accusantium natus!",
+        user: { name: "Maxsuel", id: 1 }
+      },
+      {
+        id: 2,
+        rating: 6,
+        comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae minus iusto repudiandae recusandae, ullam, officiis odit totam expedita quas facere rerum alias accusantium natus!",
+        user: { name: "Mateus", id: 2 }
+      }
+    ]
   },
   {
     id: 1,
@@ -32,22 +41,21 @@ const ideas = [
       "Lista de compras em supermercado em tempo real para casais e famílias",
     description:
       "Um aplicativo que fornece as funcionalidades necessárias para a lista",
-    feedbacks: {
-      count: 0,
-      rating: 0,
-      users: []
-    }
+    feedbacks: []
   },
   {
     id: 2,
     title: "Alugga",
     problem: "Gestão de imóveis",
     description: "Plataforma online para facilitar a gestão de imóveis",
-    feedbacks: {
-      count: 1,
-      rating: 9.0,
-      users: [{ name: "Maxsuel", id: 1 }]
-    }
+    feedbacks: [
+      {
+        id: 3,
+        rating: 9.5,
+        comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae minus iusto repudiandae recusandae, ullam, officiis odit totam expedita quas facere rerum alias accusantium natus!",
+        user: { name: "Mateus", id: 2 }
+      }
+    ]
   },
   {
     id: 3,
@@ -55,11 +63,7 @@ const ideas = [
     problem: "Falta de acompanhamento dos pais na vida escolar dos filhos",
     description:
       "Plataforma online para fomentar o acompanhamento dos pais na vida dos alunos",
-    feedbacks: {
-      count: 0,
-      rating: 0,
-      users: []
-    }
+    feedbacks: []
   }
 ];
 
