@@ -2,6 +2,7 @@
   <div>
     <div v-for="idea in ideas" :key="idea.id" class="section">
       <h4>{{idea.title}}</h4>
+      <i>de {{idea.author.name}}</i>
       <h5>Problema: </h5>
       <p>{{idea.problem}}</p>
       <h5>Descrição: </h5>

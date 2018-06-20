@@ -32,7 +32,11 @@ const ideas = [
         comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae minus iusto repudiandae recusandae, ullam, officiis odit totam expedita quas facere rerum alias accusantium natus!",
         user: { name: "Mateus", id: 2 }
       }
-    ]
+    ],
+    author: {
+      id: 1,
+      name: "Maxsuel Maccari"
+    }
   },
   {
     id: 1,
@@ -41,7 +45,11 @@ const ideas = [
       "Lista de compras em supermercado em tempo real para casais e famílias",
     description:
       "Um aplicativo que fornece as funcionalidades necessárias para a lista",
-    feedbacks: []
+    feedbacks: [],
+    author: {
+      id: 1,
+      name: "Maxsuel Maccari"
+    }
   },
   {
     id: 2,
@@ -55,7 +63,11 @@ const ideas = [
         comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae minus iusto repudiandae recusandae, ullam, officiis odit totam expedita quas facere rerum alias accusantium natus!",
         user: { name: "Mateus", id: 2 }
       }
-    ]
+    ],
+    author: {
+      id: 1,
+      name: "Maxsuel Maccari"
+    }
   },
   {
     id: 3,
@@ -63,7 +75,11 @@ const ideas = [
     problem: "Falta de acompanhamento dos pais na vida escolar dos filhos",
     description:
       "Plataforma online para fomentar o acompanhamento dos pais na vida dos alunos",
-    feedbacks: []
+    feedbacks: [],
+    author: {
+      id: 3,
+      name: "Maurício Maccari"
+    }
   }
 ];
 
