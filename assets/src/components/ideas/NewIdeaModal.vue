@@ -18,7 +18,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <a class="btn-flat waves-effect waves-red" @click.prevent="newIdeaModal.close()">Cancelar</a>
+      <a class="btn-flat waves-effect waves-red" @click.prevent="modal.close()">Cancelar</a>
       <a :class="{disabled: !isNewIdeaValid}" class="btn-flat waves-effect waves-green" @click.prevent="addIdea">Adicionar <i class="material-icons right">send</i></a>
     </div>
   </div>
@@ -36,7 +36,7 @@ export default {
         description: "",
         feedbacks: {count: 0, rating: 0, users: []}
       },
-      newIdeaModal: null
+      modal: null
     }
   },
   computed: {
@@ -55,7 +55,7 @@ export default {
           }
         })
 
-    this.newIdeaModal = modal;
+    this.modal = modal;
 
     modal.open()
   },
@@ -64,7 +64,7 @@ export default {
       if (this.isNewIdeaValid) {
         this.$emit('add', this.newIdea)
 
-        this.newIdeaModal.close()
+        this.modal.close()
       }
     }
   },
