@@ -34,6 +34,8 @@ import NewFeedbackModal from '@/components/feedbacks/NewFeedbackModal'
 import ShowFeedbacksModal from '@/components/feedbacks/ShowFeedbacksModal'
 import StarRating from 'vue-star-rating'
 
+import { mapActions } from 'vuex'
+
 export default {
   components: {
     NewFeedbackModal,
@@ -72,11 +74,7 @@ export default {
       return !this.idea.feedbacks.some(feedback => feedback.user.id == this.user.id);
     }
   },
-  methods: {
-    addFeedback (feedback) {
-      this.idea.feedbacks.push(feedback)
-    }
-  }
+  methods: mapActions(['addFeedback'])
 }
 </script>
 

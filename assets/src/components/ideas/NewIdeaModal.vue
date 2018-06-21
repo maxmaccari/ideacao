@@ -33,12 +33,7 @@ export default {
       newIdea : {
         title: "",
         problem: "",
-        description: "",
-        feedbacks: [],
-        author: {
-          id: 1,
-          name: "Maxsuel"
-        }
+        description: ""
       },
       modal: null
     }

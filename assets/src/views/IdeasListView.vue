@@ -16,31 +16,20 @@
 import IdeasList from '@/components/ideas/IdeasList'
 import NewIdeaModal from '@/components/ideas/NewIdeaModal'
 
+import { mapActions, mapState } from 'vuex'
+
 export default {
   components: {
     IdeasList,
     NewIdeaModal
-  },
-  props: {
-    ideas: {
-      type: Array,
-      required: true
-    },
-    user: {
-      type: Object,
-      required: true
-    }
   },
   data () {
     return {
       showModal: false
     }
   },
-  methods: {
-    addIdea(idea) {
-      this.ideas.push(idea)
-    }
-  }
+  computed: mapState(['ideas', 'user']),
+  methods: mapActions(['addIdea'])
 }
 </script>
 

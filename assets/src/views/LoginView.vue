@@ -5,18 +5,23 @@
         <div id="loginPanel" class="card">
           <div class="card-content">
             <span class="card-title">Login</span>
-            <form action="#">
+
+            <div v-if="hasError" class="error red-text lighten-1">
+              {{error.message}}
+            </div>
+
+            <form action="#" @submit.prevent="loginUser">
               <div class="input-field">
-                <input id="email" type="email" name="email" required>
+                <input id="email" v-model="credentials.email" type="email" name="email" required>
                 <label for="email">Email</label>
               </div>
 
               <div class="input-field">
-                <input id="password" type="password" name="password" required>
+                <input id="password" v-model="credentials.password" type="password" name="password" required>
                 <label for="password">Senha</label>
               </div>
 
-              <button class="btn" @click.prevent="loginUser">Login</button>
+              <button :disabled="!canLogin" class="btn">Login</button>
             </form>
           </div>
           <div class="card-action">
@@ -25,12 +30,14 @@
         </div>
       </div>
     </div>
-    <register-user-modal v-if="openModal" @close="openModal=false" @register="registerUser"/>
+    <register-user-modal v-if="openModal" @close="openModal=false" @register="register"/>
   </div>
 </template>
 
 <script>
 import RegisterUserModal from "@/components/login/RegisterUserModal"
+
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   components: {
@@ -38,19 +45,26 @@ export default {
   },
   data() {
     return {
-      openModal: false
+      openModal: false,
+      credentials: {
+        email: "",
+        password: ""
+      }
     }
   },
-  methods: {
-    loginUser () {
-      this.$emit('login', {
-        id: 1,
-        name: "Maxsuel"
-      })
+  computed: {
+    canLogin () {
+      return this.credentials.email.length >= 3 &&
+             this.credentials.password.length >= 5
     },
-    registerUser (user) {
-      this.$emit('login', user)
-    }
+    ...mapGetters(['hasError']),
+    ...mapState(['error'])
+  },
+  methods: {
+    loginUser() {
+      this.login(this.credentials)
+    },
+    ...mapActions(['login', 'register'])
   }
 }
 </script>

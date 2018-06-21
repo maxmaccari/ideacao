@@ -54,11 +54,7 @@ export default {
       modal: null,
       feedback: {
         rating: 0,
-        comment: "",
-        user: {
-          id: 1,
-          name: "Maxsuel"
-        }
+        comment: ""
       }
     }
   },
@@ -86,7 +82,10 @@ export default {
   methods: {
     add () {
       if (this.valid) {
-        this.$emit('add', this.feedback)
+        this.$emit('add', {
+          idea: this.idea,
+          feedback: this.feedback
+        })
         this.modal.close()
       }
     }

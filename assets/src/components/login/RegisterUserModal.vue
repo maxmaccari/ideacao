@@ -2,29 +2,29 @@
   <div id="registerModal" class="modal">
     <div class="modal-content">
       <h4>Cadastro</h4>
-      <form action="#">
+      <form action="#" @submit.prevent="register">
         <div class="input-field">
-          <input id="name" v-model="newUser.name" type="text" name="name" required>
+          <input id="name" v-model="user.name" type="text" name="name" required>
           <label for="name">Nome</label>
         </div>
 
         <div class="input-field">
-          <input v-model="newUser.email" type="email" name="email" required>
+          <input v-model="user.email" type="email" name="email" required>
           <label for="email">Email</label>
         </div>
 
         <div class="input-field">
-          <input v-model="newUser.password" type="password" name="password" required>
+          <input v-model="user.password" type="password" name="password" required>
           <label for="password">Senha</label>
         </div>
 
         <div class="input-field">
-          <input v-model="newUser.passwordConfirmation" type="password" name="password_confirmation" required>
+          <input v-model="user.passwordConfirmation" type="password" name="password_confirmation" required>
           <label for="password_confirmation">Confirme a sua Senha</label>
         </div>
 
 
-        <button class="btn" @click.prevent="register">Confirmar</button>
+        <button class="btn">Confirmar</button>
       </form>
     </div>
   </div>
@@ -37,7 +37,7 @@ export default {
   data () {
     return {
       modal: null,
-      newUser: {
+      user: {
         name: "",
         email: "",
         password: "",
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     register () {
-      this.$emit('register', this.newUser)
+      this.$emit('register', this.user)
       this.modal.close()
     }
   },

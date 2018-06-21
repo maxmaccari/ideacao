@@ -12,7 +12,8 @@
           </li>
           <li v-for="(item, index) in items" :key="index">
             <a v-if="item.href" :href="item.href">{{item.title}}</a>
-            <a v-else href="#" @click.prevent="$emit(item.action)">{{item.title}}</a>
+            <a v-else-if="item.event" href="#" @click.prevent="sidenav.close(); $emit(item.event)"/>
+            <a v-else-if="item.action" href="#" @click.prevent="sidenav.close(); item.action()">{{item.title}}</a>
           </li>
         </ul>
       </div>
@@ -27,7 +28,8 @@
       <li v-if="user"><div class="divider"/></li>
       <li v-for="(item, index) in items" :key="index">
         <a v-if="item.href" :href="item.href">{{item.title}}</a>
-        <a v-else href="#" @click.prevent="sidenav.close(); $emit(item.action)">{{item.title}}</a>
+        <a v-else-if="item.event" href="#" @click.prevent="sidenav.close(); $emit(item.event)"/>
+        <a v-else-if="item.action" href="#" @click.prevent="sidenav.close(); item.action()">{{item.title}}</a>
       </li>
     </ul>
   </div>
@@ -36,26 +38,24 @@
 <script>
 import M from 'materialize-css'
 
+import { mapState, mapActions } from 'vuex'
+
 export default {
-  props: {
-    user: {
-      type: Object,
-      default: null
-    }
-  },
   data () {
     return {
       items: [
-        {title: "Sair", action: "logout"}
+        {title: "Sair", action: this.logout}
       ],
       sidenav: null
     }
   },
+  computed: mapState(['user']),
   mounted () {
     const elems = document.querySelectorAll('.sidenav');
     const sidenavs = M.Sidenav.init(elems);
     this.sidenav = sidenavs[0]
-  }
+  },
+  methods: mapActions(['logout'])
 }
 </script>
 
