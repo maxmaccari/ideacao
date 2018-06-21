@@ -251,6 +251,8 @@ defmodule Ideacao.Ideas do
     Feedback.changeset(feedback, %{})
   end
 
+  # Preloads
+
   @doc """
   Preloads an user for a feedback query
 
@@ -260,5 +262,9 @@ defmodule Ideacao.Ideas do
   """
   def preload_user(query) do
     Repo.preload(query, :user)
+  end
+
+  def preload_author(query) do
+    Repo.preload(query, :author)
   end
 end

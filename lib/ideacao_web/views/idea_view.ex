@@ -15,6 +15,10 @@ defmodule IdeacaoWeb.IdeaView do
       title: idea.title,
       target: idea.target,
       problem: idea.problem,
-      description: idea.description}
+      description: idea.description,
+      author: %{
+        id: idea.author.id,
+        name: idea.author.name
+      }}
   end
 end

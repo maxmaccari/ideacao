@@ -7,7 +7,7 @@ defmodule IdeacaoWeb.IdeaController do
   action_fallback IdeacaoWeb.FallbackController
 
   def index(conn, _params) do
-    ideas = Ideas.list_ideas()
+    ideas = Ideas.list_ideas() |> Ideas.preload_author()
     render(conn, "index.json", ideas: ideas)
   end
 
@@ -19,20 +19,23 @@ defmodule IdeacaoWeb.IdeaController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", idea_path(conn, :show, idea))
-      |> render("show.json", idea: idea)
+      |> render("show.json", idea: Ideas.preload_author(idea))
     end
   end
 
   def show(conn, %{"id" => id}) do
-    idea = Ideas.get_idea!(id)
+    idea = Ideas.get_idea!(id) |> Ideas.preload_author()
     render(conn, "show.json", idea: idea)
   end
 
   def update(conn, %{"id" => id, "idea" => idea_params}) do
+    author = current_user(conn)
+    idea_params = Map.put(idea_params, "author_id", author.id)
+
     idea = Ideas.get_idea!(id)
 
     with {:ok, %Idea{} = idea} <- Ideas.update_idea(idea, idea_params) do
-      render(conn, "show.json", idea: idea)
+      render(conn, "show.json", idea: Ideas.preload_author(idea))
     end
   end
 
