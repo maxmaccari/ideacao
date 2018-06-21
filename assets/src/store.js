@@ -1,79 +1,9 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 
-Vue.use(Vuex);
+import createPersistedState from "vuex-persistedstate";
 
-const dummyIdeas = [
-  {
-    id: 0,
-    title: "Projeto Ideação",
-    problem:
-      "Colaboração de equipes no processo de validação de ideias e inovação",
-    description:
-      "Plataforma online para facilitar a colaboração de equipes no projeto",
-    feedbacks: [
-      {
-        id: 1,
-        rating: 8.5,
-        comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae minus iusto repudiandae recusandae, ullam, officiis odit totam expedita quas facere rerum alias accusantium natus!",
-        user: { name: "Maxsuel", id: 1 }
-      },
-      {
-        id: 2,
-        rating: 6,
-        comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae minus iusto repudiandae recusandae, ullam, officiis odit totam expedita quas facere rerum alias accusantium natus!",
-        user: { name: "Mateus", id: 2 }
-      }
-    ],
-    author: {
-      id: 1,
-      name: "Maxsuel Maccari"
-    }
-  },
-  {
-    id: 1,
-    title: "Projeto MyShopping",
-    problem:
-      "Lista de compras em supermercado em tempo real para casais e famílias",
-    description:
-      "Um aplicativo que fornece as funcionalidades necessárias para a lista",
-    feedbacks: [],
-    author: {
-      id: 1,
-      name: "Maxsuel Maccari"
-    }
-  },
-  {
-    id: 2,
-    title: "Alugga",
-    problem: "Gestão de imóveis",
-    description: "Plataforma online para facilitar a gestão de imóveis",
-    feedbacks: [
-      {
-        id: 3,
-        rating: 9.5,
-        comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi beatae minus iusto repudiandae recusandae, ullam, officiis odit totam expedita quas facere rerum alias accusantium natus!",
-        user: { name: "Mateus", id: 2 }
-      }
-    ],
-    author: {
-      id: 1,
-      name: "Maxsuel Maccari"
-    }
-  },
-  {
-    id: 3,
-    title: "AcompanheAki",
-    problem: "Falta de acompanhamento dos pais na vida escolar dos filhos",
-    description:
-      "Plataforma online para fomentar o acompanhamento dos pais na vida dos alunos",
-    feedbacks: [],
-    author: {
-      id: 3,
-      name: "Maurício Maccari"
-    }
-  }
-];
+Vue.use(Vuex);
 
 const dummyUsers = [
   {
@@ -94,8 +24,9 @@ const dummyUsers = [
 ]
 
 const store = new Vuex.Store({
+  plugins: [createPersistedState()],
   state: {
-    ideas: dummyIdeas,
+    ideas: [],
     user: null,
     authToken: null,
     error: null
@@ -155,13 +86,14 @@ const store = new Vuex.Store({
       commit('logout')
     },
     addIdea({commit, state}, idea) {
-      idea.author = state.user
-      idea.feedbacks = []
       idea.id = state.ideas.length + 1
+      idea.author = state.user
+      Vue.set(idea, 'feedbacks', [])
       commit('addIdea', idea)
     },
     addFeedback({commit, state}, {idea, feedback}) {
       feedback.user = state.user
+      feedback.id = idea.id + idea.feedbacks.length + 1
       commit('addFeedback', {
         idea_id: idea.id,
         feedback: feedback
@@ -169,6 +101,5 @@ const store = new Vuex.Store({
     }
   }
 })
-
 
 export default store;
