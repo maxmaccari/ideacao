@@ -46,10 +46,10 @@ import StarRating from 'vue-star-rating'
 import modalMixin from '@/components/mixins/modalMixin'
 
 export default {
-  mixins: [modalMixin],
   components: {
     StarRating
   },
+  mixins: [modalMixin],
   props: {
     idea: {
       type: Object,

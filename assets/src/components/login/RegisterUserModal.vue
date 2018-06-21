@@ -23,11 +23,11 @@
           <label for="password_confirmation">Confirme a sua senha</label>
         </div>
 
-        <p class="red-text"
-          v-if="user.passwordConfirmation.length > 0 && !passwordValid">As senhas são não se correspondem</p>
+        <p v-if="user.passwordConfirmation.length > 0 && !passwordValid"
+           class="red-text">As senhas são não se correspondem</p>
 
 
-        <button class="btn" :disabled="!isValid">Confirmar</button>
+        <button :disabled="!isValid" class="btn">Confirmar</button>
       </form>
     </div>
   </div>
