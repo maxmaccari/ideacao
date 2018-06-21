@@ -1,5 +1,5 @@
 <template>
-  <div id="newFeedbackModal" class="modal">
+  <div :id="modalName" class="modal">
     <div class="modal-content left-align">
       <h4>Novo Feedback para {{idea.title}}</h4>
       <p>Como você avalia o {{idea.title}}? Dê uma nota e diga o que você achou dessa ideia.</p>
@@ -36,10 +36,11 @@
 </template>
 
 <script>
-import M from 'materialize-css'
 import StarRating from 'vue-star-rating'
+import modalMixin from '@/components/mixins/modalMixin'
 
 export default {
+  mixins: [modalMixin],
   components: {
     StarRating
   },
@@ -51,7 +52,7 @@ export default {
   },
   data () {
     return {
-      modal: null,
+      modalName: 'newFeedbackModal',
       feedback: {
         rating: 0,
         comment: ""
@@ -65,19 +66,6 @@ export default {
     valid () {
       return this.feedback.comment.length > 3
     }
-  },
-  mounted () {
-    const vm = this
-    const elem = document.getElementById("newFeedbackModal")
-    const modal = M.Modal.init(elem, {
-          onCloseEnd () {
-            vm.$emit('close')
-          }
-        })
-
-    this.modal = modal;
-
-    modal.open()
   },
   methods: {
     add () {

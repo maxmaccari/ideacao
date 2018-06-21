@@ -1,5 +1,5 @@
 <template>
-  <div id="newIdeaModal" class="modal">
+  <div :id="modalName" class="modal">
     <div class="modal-content">
       <h4>Nova Ideia</h4>
       <form>
@@ -25,9 +25,10 @@
 </template>
 
 <script>
-import M from 'materialize-css'
+import modalMixin from '@/components/mixins/modalMixin'
 
 export default {
+  mixins: [modalMixin],
   data () {
     return {
       newIdea : {
@@ -35,7 +36,7 @@ export default {
         problem: "",
         description: ""
       },
-      modal: null
+      modalName: "newIdeaModal"
     }
   },
   computed: {
@@ -44,19 +45,6 @@ export default {
              this.newIdea.problem.length > 0 &&
              this.newIdea.description.length > 0
     }
-  },
-  mounted () {
-    const vm = this
-    const elem = document.getElementById("newIdeaModal")
-    const modal = M.Modal.init(elem, {
-          onCloseEnd () {
-            vm.$emit('close')
-          }
-        })
-
-    this.modal = modal;
-
-    modal.open()
   },
   methods: {
     addIdea() {

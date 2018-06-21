@@ -1,5 +1,5 @@
 <template>
-  <div id="registerModal" class="modal">
+  <div :id="modalName" class="modal">
     <div class="modal-content">
       <h4>Cadastro</h4>
       <form action="#" @submit.prevent="register">
@@ -31,12 +31,13 @@
 </template>
 
 <script>
-import M from 'materialize-css'
+import modalMixin from '@/components/mixins/modalMixin'
 
 export default {
+  mixins: [modalMixin],
   data () {
     return {
-      modal: null,
+      modalName: 'registerModal',
       user: {
         name: "",
         email: "",
@@ -44,19 +45,6 @@ export default {
         passwordConfirmation: ""
       }
     }
-  },
-  mounted () {
-    const vm = this
-    const elem = document.getElementById("registerModal")
-    const modal = M.Modal.init(elem, {
-      onCloseEnd() {
-        vm.$emit('close')
-      }
-    })
-
-    this.modal = modal;
-
-    modal.open()
   },
   methods: {
     register () {

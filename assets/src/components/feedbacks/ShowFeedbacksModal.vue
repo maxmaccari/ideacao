@@ -1,5 +1,5 @@
 <template>
-  <div id="showFeedbacksModal" class="modal">
+  <div :id="modalName" class="modal">
     <div class="modal-content left-align">
       <h4>Feedbacks para {{idea.title}}</h4>
 
@@ -43,9 +43,10 @@
 
 <script>
 import StarRating from 'vue-star-rating'
-import M from 'materialize-css'
+import modalMixin from '@/components/mixins/modalMixin'
 
 export default {
+  mixins: [modalMixin],
   components: {
     StarRating
   },
@@ -57,7 +58,7 @@ export default {
   },
   data () {
     return {
-      modal: null
+      modalName: 'showFeedbacksModal'
     }
   },
   computed: {
@@ -70,20 +71,7 @@ export default {
 
       return sum / this.count
     }
-  },
-  mounted () {
-    const vm = this
-    const elem = document.getElementById("showFeedbacksModal")
-    const modal = M.Modal.init(elem, {
-          onCloseEnd () {
-            vm.$emit('close')
-          }
-        })
-
-    this.modal = modal;
-
-    modal.open()
-  },
+  }
 }
 </script>
 
