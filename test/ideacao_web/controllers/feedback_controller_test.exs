@@ -59,6 +59,7 @@ defmodule IdeacaoWeb.FeedbackControllerTest do
         "comment" => "some comment",
         "rate" => 6,
         "user" => %{
+          "id" => user.id,
           "name" => user.name
         }}
     end
@@ -82,7 +83,10 @@ defmodule IdeacaoWeb.FeedbackControllerTest do
         "id" => id,
         "comment" => "some updated comment",
         "rate" => 7,
-        "user" => %{"name" => user.name}}
+        "user" => %{
+          "id" => user.id,
+          "name" => user.name
+        }}
     end
 
     test "renders errors when data is invalid", %{conn: conn, feedback: feedback, idea: idea} do

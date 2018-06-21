@@ -15,6 +15,7 @@ defmodule IdeacaoWeb.FeedbackView do
       rate: feedback.rate,
       comment: feedback.comment,
       user: %{
+        id: feedback.user.id,
         name: feedback.user.name
       }}
   end
