@@ -4,7 +4,7 @@ defmodule IdeacaoWeb.FeedbackControllerTest do
   alias Ideacao.{Ideas, Accounts}
   alias Ideacao.Ideas.Feedback
 
-  @idea_attrs %{description: "some description", name: "some name", problem: "some problem", target: "some target"}
+  @idea_attrs %{description: "some description", title: "some title", problem: "some problem", target: "some target"}
   @create_attrs %{comment: "some comment", rate: 6}
   @update_attrs %{comment: "some updated comment", rate: 7}
   @invalid_attrs %{comment: nil, rate: -1}

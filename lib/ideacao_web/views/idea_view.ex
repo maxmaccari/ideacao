@@ -12,7 +12,7 @@ defmodule IdeacaoWeb.IdeaView do
 
   def render("idea.json", %{idea: idea}) do
     %{id: idea.id,
-      name: idea.name,
+      title: idea.title,
       target: idea.target,
       problem: idea.problem,
       description: idea.description}

@@ -14,9 +14,9 @@ defmodule Ideacao.IdeasTest do
   describe "ideas" do
     alias Ideacao.Ideas.Idea
 
-    @valid_attrs %{description: "some description", name: "some name", problem: "some problem", target: "some target"}
-    @update_attrs %{description: "some updated description", name: "some updated name", problem: "some updated problem", target: "some updated target"}
-    @invalid_attrs %{description: nil, name: nil, problem: nil, target: nil}
+    @valid_attrs %{description: "some description", title: "some title", problem: "some problem", target: "some target"}
+    @update_attrs %{description: "some updated description", title: "some updated title", problem: "some updated problem", target: "some updated target"}
+    @invalid_attrs %{description: nil, title: nil, problem: nil, target: nil}
 
     def idea_fixture(attrs \\ %{}) do
       {:ok, idea} =
@@ -41,7 +41,7 @@ defmodule Ideacao.IdeasTest do
       valid_attrs = Map.put(@valid_attrs, :author_id, user.id)
       assert {:ok, %Idea{} = idea} = Ideas.create_idea(valid_attrs)
       assert idea.description == "some description"
-      assert idea.name == "some name"
+      assert idea.title == "some title"
       assert idea.problem == "some problem"
       assert idea.target == "some target"
     end
@@ -55,7 +55,7 @@ defmodule Ideacao.IdeasTest do
       assert {:ok, idea} = Ideas.update_idea(idea, @update_attrs)
       assert %Idea{} = idea
       assert idea.description == "some updated description"
-      assert idea.name == "some updated name"
+      assert idea.title == "some updated title"
       assert idea.problem == "some updated problem"
       assert idea.target == "some updated target"
     end

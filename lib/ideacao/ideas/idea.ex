@@ -5,7 +5,7 @@ defmodule Ideacao.Ideas.Idea do
 
   schema "ideas" do
     field :description, :string
-    field :name, :string
+    field :title, :string
     field :problem, :string
     field :target, :string
     belongs_to :author, Ideacao.Accounts.User
@@ -17,7 +17,7 @@ defmodule Ideacao.Ideas.Idea do
   @doc false
   def changeset(idea, attrs) do
     idea
-    |> cast(attrs, [:name, :target, :problem, :description, :author_id])
-    |> validate_required([:name, :target, :problem, :description, :author_id])
+    |> cast(attrs, [:title, :target, :problem, :description, :author_id])
+    |> validate_required([:title, :target, :problem, :description, :author_id])
   end
 end

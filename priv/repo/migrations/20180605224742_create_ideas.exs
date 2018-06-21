@@ -3,7 +3,7 @@ defmodule Ideacao.Repo.Migrations.CreateIdeas do
 
   def change do
     create table(:ideas) do
-      add :name, :string, null: false
+      add :title, :string, null: false
       add :target, :string, null: false
       add :problem, :text, null: false
       add :description, :text, null: false

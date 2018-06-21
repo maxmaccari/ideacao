@@ -5,9 +5,9 @@ defmodule IdeacaoWeb.IdeaControllerTest do
   alias Ideacao.Ideas
   alias Ideacao.Ideas.Idea
 
-  @create_attrs %{description: "some description", name: "some name", problem: "some problem", target: "some target"}
-  @update_attrs %{description: "some updated description", name: "some updated name", problem: "some updated problem", target: "some updated target"}
-  @invalid_attrs %{description: nil, name: nil, problem: nil, target: nil}
+  @create_attrs %{description: "some description", title: "some title", problem: "some problem", target: "some target"}
+  @update_attrs %{description: "some updated description", title: "some updated title", problem: "some updated problem", target: "some updated target"}
+  @invalid_attrs %{description: nil, title: nil, problem: nil, target: nil}
 
   def fixture(:user) do
     timestamp = :os.system_time(:micro_seconds)
@@ -50,7 +50,7 @@ defmodule IdeacaoWeb.IdeaControllerTest do
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
         "description" => "some description",
-        "name" => "some name",
+        "title" => "some title",
         "problem" => "some problem",
         "target" => "some target"}
     end
@@ -72,7 +72,7 @@ defmodule IdeacaoWeb.IdeaControllerTest do
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
         "description" => "some updated description",
-        "name" => "some updated name",
+        "title" => "some updated title",
         "problem" => "some updated problem",
         "target" => "some updated target"}
     end
