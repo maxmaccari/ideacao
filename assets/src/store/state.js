@@ -1,7 +1,9 @@
+import config from '../../config'
 
 export default {
   ideas: [],
   user: null,
   authToken: null,
-  error: null
+  error: null,
+  config
 }
