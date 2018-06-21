@@ -5,7 +5,7 @@
       <p>Como você avalia o {{idea.title}}? Dê uma nota e diga o que você achou dessa ideia.</p>
       <form>
         <div>
-          <label>Nota (de 0 a 10)</label>
+          <label>De 0 a 10, que nota você dá para essa ideia? (se for zero, não selecione nenhuma estrelinha)</label>
           <div>
             <star-rating
               v-model="feedback.rating"
@@ -24,7 +24,7 @@
         </div>
         <div class="input-field">
           <textarea id="comment" v-model="feedback.comment" name="comment" class="materialize-textarea" required/>
-          <label for="comment">Comentário</label>
+          <label for="comment">Por que essa nota?</label>
         </div>
       </form>
     </div>

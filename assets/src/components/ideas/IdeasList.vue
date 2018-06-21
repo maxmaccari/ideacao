@@ -2,10 +2,12 @@
   <div>
     <div v-for="idea in ideas" :key="idea.id" class="section">
       <h4>{{idea.title}}</h4>
-      <i>de {{idea.author.name}}</i>
-      <h5>Problema: </h5>
+      Autoria de: <i>{{idea.author.name}}</i>
+      <h5>Qual é o Público Alvo dessa ideia?</h5>
+      <p>{{idea.target}}</p>
+      <h5>Qual problema essa ideia ataca?</h5>
       <p>{{idea.problem}}</p>
-      <h5>Descrição: </h5>
+      <h5>Como essa ideia busca resolver o problema?</h5>
       <p>{{idea.description}}</p>
       <feedbacks-info :idea="idea" :user="user"/>
       <div class="divider"/>

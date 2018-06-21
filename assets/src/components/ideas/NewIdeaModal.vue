@@ -5,15 +5,19 @@
       <form>
         <div class="input-field">
           <input id="title" v-model="newIdea.title" type="text" name="title" required>
-          <label for="title">Título</label>
+          <label for="title">Qual título quer dar para a sua ideia?</label>
+        </div>
+        <div class="input-field">
+          <textarea id="target" v-model="newIdea.target" class="materialize-textarea" name="target" required/>
+          <label for="target">Qual é o Público Alvo sua ideia?</label>
         </div>
         <div class="input-field">
           <textarea id="problem" v-model="newIdea.problem" name="problem" class="materialize-textarea" required/>
-          <label for="problem">Problema</label>
+          <label for="problem">Que problema sua ideia busca atacar?</label>
         </div>
         <div class="input-field">
           <textarea id="description" v-model="newIdea.description" name="description" class="materialize-textarea" required/>
-          <label for="description">Descrição</label>
+          <label for="description">Como sua ideia busca resolver esse problema?</label>
         </div>
       </form>
     </div>
@@ -33,6 +37,7 @@ export default {
     return {
       newIdea : {
         title: "",
+        target: "",
         problem: "",
         description: ""
       },
@@ -42,6 +47,7 @@ export default {
   computed: {
     isNewIdeaValid () {
       return this.newIdea.title.length > 0 &&
+             this.newIdea.target.length > 0 &&
              this.newIdea.problem.length > 0 &&
              this.newIdea.description.length > 0
     }
