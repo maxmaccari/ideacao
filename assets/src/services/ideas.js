@@ -11,5 +11,9 @@ export default {
   allFeedbacks(idea_id) {
     return Http.get(`/ideas/${idea_id}/feedbacks`)
                .then(response => response.data)
+  },
+  createFeedback(idea_id, feedback) {
+    return Http.post(`/ideas/${idea_id}/feedbacks`, {feedback: feedback})
+               .then(response => response.data)
   }
 }

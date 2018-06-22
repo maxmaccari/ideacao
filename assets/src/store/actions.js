@@ -64,12 +64,13 @@ export default {
         })
       })
   },
-  addFeedback({commit, state}, {idea, feedback}) {
-    feedback.user = state.user
-    feedback.id = idea.id + idea.feedbacks.length + 1
-    commit('addFeedback', {
-      idea_id: idea.id,
-      feedback: feedback
-    })
+  addFeedback({commit}, {idea, feedback}) {
+    Ideas.createFeedback(idea.id, feedback)
+      .then(data => {
+        commit('addFeedback', {
+          idea_id: idea.id,
+          feedback: data.feedback
+        })
+      })
   }
 }
