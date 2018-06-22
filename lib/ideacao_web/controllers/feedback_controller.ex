@@ -21,6 +21,19 @@ defmodule IdeacaoWeb.FeedbackController do
 
     with {:ok, %Feedback{} = feedback} <- Ideas.create_feedback(feedback_params) do
       feedback = Ideas.preload_user(feedback)
+
+      IdeacaoWeb.Endpoint.broadcast("ideas:lobby", "newFeedback", %{
+        feedback: %{
+          id: feedback.id,
+          rating: feedback.rating,
+          user: %{
+            id: feedback.user.id,
+            name: feedback.user.name
+          }
+        },
+        idea_id: feedback.idea_id
+      })
+
       conn
       |> put_status(:created)
       |> put_resp_header("location", idea_feedback_path(conn, :show, idea_id, feedback))

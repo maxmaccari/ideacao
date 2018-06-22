@@ -16,6 +16,19 @@ defmodule IdeacaoWeb.IdeaController do
     idea_params = Map.put(idea_params, "author_id", author.id)
 
     with {:ok, %Idea{} = idea} <- Ideas.create_idea(idea_params) do
+      IdeacaoWeb.Endpoint.broadcast("ideas:lobby", "newIdea", %{
+        id: idea.id,
+        title: idea.title,
+        target: idea.target,
+        problem: idea.problem,
+        description: idea.description,
+        feedbacks: [],
+        author: %{
+          id: author.id,
+          name: author.name
+        }
+      })
+
       conn
       |> put_status(:created)
       |> put_resp_header("location", idea_path(conn, :show, idea))

@@ -3,6 +3,7 @@ defmodule IdeacaoWeb.UserSocket do
 
   ## Channels
   # channel "room:*", IdeacaoWeb.RoomChannel
+  channel "ideas:lobby", IdeacaoWeb.IdeasChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
