@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { Ideas, Users } from '../services'
 import { createSocket } from '../services/socket'
+import { listenIdeas }  from '../listeners'
 
 export default {
   register({commit, dispatch}, user){
@@ -76,10 +77,9 @@ export default {
         })
       })
   },
-  connectSocket({commit, state}) {
-    if (state.authToken == null) return null
-    const socket = createSocket(state.authToken)
-
-    commit('setSocket', socket)
+  connectSocket(context) {
+    if (context.state.authToken == null) return null
+    const socket = createSocket(context.state.authToken)
+    listenIdeas(socket, context)
   }
 }

@@ -14,7 +14,8 @@ export default {
     state.ideas = ideas;
   },
   addIdea(state, idea) {
-    state.ideas.push(idea)
+    const found = state.ideas.find(i => i.id == idea.id)
+    if (!found) state.ideas.push(idea)
   },
   setFeedbacks(state, {idea_id, feedbacks}) {
     const idea = state.ideas.find(idea => idea.id == idea_id)
@@ -22,7 +23,8 @@ export default {
   },
   addFeedback(state, {idea_id, feedback}) {
     const idea = state.ideas.find(idea => idea.id == idea_id)
-    idea.feedbacks.push(feedback)
+    const found = idea.feedbacks.find(f => f.id == feedback.id)
+    if (!found) idea.feedbacks.push(feedback)
   },
   setError(state, payload) {
     state.error = payload
