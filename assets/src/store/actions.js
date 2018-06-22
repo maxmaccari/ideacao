@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Users } from '../services'
+import { Ideas, Users } from '../services'
 
 export default {
   register({commit}, user){
@@ -40,11 +40,29 @@ export default {
   logout({commit}) {
     commit('logout')
   },
-  addIdea({commit, state}, idea) {
-    idea.id = state.ideas.length + 1
-    idea.author = state.user
-    Vue.set(idea, 'feedbacks', [])
-    commit('addIdea', idea)
+  loadIdeas({commit, dispatch}) {
+    Ideas.all()
+      .then(data => {
+        commit('setIdeas', data.ideas)
+
+        data.ideas.forEach(idea => dispatch('loadFeedbacks', idea))
+      })
+  },
+  addIdea({commit}, idea) {
+    Ideas.create(idea)
+      .then(data => {
+        Vue.set(data.idea, 'feedbacks', [])
+        commit('addIdea', data.idea)
+      })
+  },
+  loadFeedbacks({commit}, idea) {
+    Ideas.allFeedbacks(idea.id)
+      .then(data => {
+        commit('setFeedbacks', {
+          idea_id: idea.id,
+          feedbacks: data.feedbacks
+        })
+      })
   },
   addFeedback({commit, state}, {idea, feedback}) {
     feedback.user = state.user

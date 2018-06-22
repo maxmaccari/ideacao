@@ -29,7 +29,10 @@ export default {
     }
   },
   computed: mapState(['ideas', 'user']),
-  methods: mapActions(['addIdea'])
+  methods: mapActions(['addIdea', 'loadIdeas']),
+  mounted () {
+    this.loadIdeas()
+  }
 }
 </script>
 
