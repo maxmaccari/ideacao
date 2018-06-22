@@ -19,8 +19,16 @@ defmodule IdeacaoWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
+  def connect(%{"token" => token}, socket) do
+    case IdeacaoWeb.Auth.user_from_token(token) do
+      {:ok, user} ->
+        {:ok, assign(socket, :user_id, user.id)}
+      {:error, _} ->
+        :error
+    end
+  end
+  def connect(_params, _socket) do
+    :error
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
