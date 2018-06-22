@@ -37,17 +37,17 @@ defmodule IdeacaoWeb.IdeaControllerTest do
   describe "index" do
     test "lists all ideas", %{conn: conn} do
       conn = get conn, idea_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
+      assert json_response(conn, 200)["ideas"] == []
     end
   end
 
   describe "create idea" do
     test "renders idea when data is valid", %{conn: conn, token: token, user: user} do
       conn = post conn, idea_path(conn, :create), idea: @create_attrs
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+      assert %{"id" => id} = json_response(conn, 201)["idea"]
 
       conn = get authenticated_conn(token), idea_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
+      assert json_response(conn, 200)["idea"] == %{
         "id" => id,
         "description" => "some description",
         "title" => "some title",
@@ -61,7 +61,7 @@ defmodule IdeacaoWeb.IdeaControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post conn, idea_path(conn, :create), idea: @invalid_attrs
-      assert json_response(conn, 422)["errors"] != %{}
+      assert json_response(conn, 422)["idea"] != %{}
     end
   end
 
@@ -70,10 +70,10 @@ defmodule IdeacaoWeb.IdeaControllerTest do
 
     test "renders idea when data is valid", %{conn: conn, idea: %Idea{id: id} = idea, token: token, user: user} do
       conn = put conn, idea_path(conn, :update, idea), idea: @update_attrs
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+      assert %{"id" => ^id} = json_response(conn, 200)["idea"]
 
       conn = get authenticated_conn(token), idea_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
+      assert json_response(conn, 200)["idea"] == %{
         "id" => id,
         "description" => "some updated description",
         "title" => "some updated title",

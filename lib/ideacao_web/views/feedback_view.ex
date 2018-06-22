@@ -3,11 +3,11 @@ defmodule IdeacaoWeb.FeedbackView do
   alias IdeacaoWeb.FeedbackView
 
   def render("index.json", %{feedbacks: feedbacks}) do
-    %{data: render_many(feedbacks, FeedbackView, "feedback.json")}
+    %{feedbacks: render_many(feedbacks, FeedbackView, "feedback.json")}
   end
 
   def render("show.json", %{feedback: feedback}) do
-    %{data: render_one(feedback, FeedbackView, "feedback.json")}
+    %{feedback: render_one(feedback, FeedbackView, "feedback.json")}
   end
 
   def render("feedback.json", %{feedback: feedback}) do

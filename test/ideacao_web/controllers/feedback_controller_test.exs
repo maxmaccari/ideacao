@@ -44,17 +44,17 @@ defmodule IdeacaoWeb.FeedbackControllerTest do
   describe "index" do
     test "lists all feedbacks from an idea", %{conn: conn, idea: idea} do
       conn = get conn, idea_feedback_path(conn, :index, idea.id)
-      assert json_response(conn, 200)["data"] == []
+      assert json_response(conn, 200)["feedbacks"] == []
     end
   end
 
   describe "create feedback" do
     test "renders feedback when data is valid", %{conn: conn, idea: idea, token: token, user: user} do
       conn = post conn, idea_feedback_path(conn, :create, idea.id), feedback: @create_attrs
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+      assert %{"id" => id} = json_response(conn, 201)["feedback"]
 
       conn = get authenticated_conn(token), idea_feedback_path(conn, :show, idea.id, id)
-      assert json_response(conn, 200)["data"] == %{
+      assert json_response(conn, 200)["feedback"] == %{
         "id" => id,
         "comment" => "some comment",
         "rate" => 6,
@@ -76,10 +76,10 @@ defmodule IdeacaoWeb.FeedbackControllerTest do
     test "renders feedback when data is valid", %{conn: conn, feedback: %Feedback{id: id} = feedback, user: user,
                                                   idea: idea, token: token} do
       conn = put conn, idea_feedback_path(conn, :update, idea, feedback), feedback: @update_attrs
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+      assert %{"id" => ^id} = json_response(conn, 200)["feedback"]
 
       conn = get authenticated_conn(token), idea_feedback_path(conn, :show, idea.id, id)
-      assert json_response(conn, 200)["data"] == %{
+      assert json_response(conn, 200)["feedback"] == %{
         "id" => id,
         "comment" => "some updated comment",
         "rate" => 7,

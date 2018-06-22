@@ -15,15 +15,19 @@ defmodule IdeacaoWeb.AuthControllerTest do
   end
 
   setup %{conn: conn} do
-    fixture(:user)
+    user = fixture(:user)
 
-    {:ok, conn: conn}
+    {:ok, conn: conn, user: user}
   end
 
   describe "authentication" do
-    test "authenticate user with valid credentials returns the token", %{conn: conn} do
+    test "authenticate user with valid credentials returns the token", %{conn: conn, user: user} do
       conn = post conn, auth_path(conn, :sign_in), @valid_credentials
       assert json_response(conn, 200)["token"] != ""
+      assert json_response(conn, 200)["user"] == %{
+        "id" => user.id,
+        "name" => user.name
+      }
     end
 
     test "authenticate user with invalid credentials returns an error", %{conn: conn} do

@@ -8,7 +8,7 @@ defmodule IdeacaoWeb.AuthController do
   def sign_in(conn, %{"user" => %{"email" => email, "password" => password}}) do
     with {:ok, user} <- Accounts.authenticate_user(email, password),
          {:ok, token, _claims} <- sign_in(user) do
-      render conn, "token.json", token: token
+      render conn, "auth.json", token: token, user: user
     end
   end
 end

@@ -3,11 +3,11 @@ defmodule IdeacaoWeb.IdeaView do
   alias IdeacaoWeb.IdeaView
 
   def render("index.json", %{ideas: ideas}) do
-    %{data: render_many(ideas, IdeaView, "idea.json")}
+    %{ideas: render_many(ideas, IdeaView, "idea.json")}
   end
 
   def render("show.json", %{idea: idea}) do
-    %{data: render_one(idea, IdeaView, "idea.json")}
+    %{idea: render_one(idea, IdeaView, "idea.json")}
   end
 
   def render("idea.json", %{idea: idea}) do

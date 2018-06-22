@@ -19,7 +19,7 @@ defmodule IdeacaoWeb.UserControllerTest do
 
     test "lists all users", %{conn: conn, user: user} do
       conn = get conn, user_path(conn, :index)
-      assert json_response(conn, 200)["data"] == [
+      assert json_response(conn, 200)["users"] == [
         %{
           "id" => user.id,
           "email" => user.email,
@@ -31,8 +31,8 @@ defmodule IdeacaoWeb.UserControllerTest do
   describe "create user" do
     test "renders user and token when data is valid", %{conn: conn} do
       conn = post conn, user_path(conn, :create), user: @create_attrs
-      assert %{"id" => id} = json_response(conn, 201)["data"]
-      assert json_response(conn, 201)["data"] == %{
+      assert %{"id" => id} = json_response(conn, 201)["user"]
+      assert json_response(conn, 201)["user"] == %{
         "id" => id,
         "email" => "user@example.com",
         "name" => "Some Name"}
@@ -50,10 +50,10 @@ defmodule IdeacaoWeb.UserControllerTest do
 
     test "renders user when data is valid", %{conn: conn, user: %User{id: id}, token: token} do
       conn = put conn, user_path(conn, :update), user: @update_attrs
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+      assert %{"id" => ^id} = json_response(conn, 200)["user"]
 
       conn = get authenticated_conn(token), user_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
+      assert json_response(conn, 200)["user"] == %{
         "id" => id,
         "email" => "updated_user@example.com",
         "name" => "Some Updated Name"}
