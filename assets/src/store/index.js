@@ -11,7 +11,7 @@ import actions from './actions'
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-  plugins: [createPersistedState({key: '__ideacao_state'})],
+  plugins: [createPersistedState({key: '__ideacao_state', paths: ['ideas', 'user', 'authToken']})],
   state,
   getters,
   mutations,
