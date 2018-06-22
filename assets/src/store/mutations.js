@@ -29,5 +29,8 @@ export default {
   },
   clearError(state) {
     state.error = null
+  },
+  setSocket(state, socket) {
+    state.socket = socket
   }
 }

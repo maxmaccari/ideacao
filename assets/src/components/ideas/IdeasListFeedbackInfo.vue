@@ -1,5 +1,5 @@
 <template>
-  <p class="right-align" v-if="idea.feedbacks">
+  <p v-if="idea.feedbacks" class="right-align">
     <span class="left">
       <star-rating v-model="average"
                    :increment="0.01"

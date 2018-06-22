@@ -2,5 +2,6 @@ export default {
   ideas: [],
   user: null,
   authToken: null,
-  error: null
+  error: null,
+  socket: null
 }

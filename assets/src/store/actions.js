@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import { Ideas, Users } from '../services'
+import { createSocket } from '../services/socket'
 
 export default {
-  register({commit}, user){
+  register({commit, dispatch}, user){
     Users.register(user)
       .then(data => {
         const authToken = data.token
@@ -10,6 +11,7 @@ export default {
 
         commit('clearError')
         commit('authenticate', { user, authToken })
+        dispatch('connectSocket')
       })
       // TODO Implement errors for registration
       // .catch(error => {
@@ -20,7 +22,7 @@ export default {
       // })
 
   },
-  login({commit}, credentials) {
+  login({commit, dispatch}, credentials) {
     Users.login(credentials)
       .then(data => {
         const authToken = data.token
@@ -28,6 +30,7 @@ export default {
 
         commit('clearError')
         commit('authenticate', {user, authToken})
+        dispatch('connectSocket')
       })
       .catch(() => {
         // TODO Enhance errors handling and localize erros in backend
@@ -72,5 +75,11 @@ export default {
           feedback: data.feedback
         })
       })
+  },
+  connectSocket({commit, state}) {
+    if (state.authToken == null) return null
+    const socket = createSocket(state.authToken)
+
+    commit('setSocket', socket)
   }
 }

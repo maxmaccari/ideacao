@@ -24,7 +24,10 @@ export default {
     NavbarMenu
   },
   computed: mapGetters(["loggedIn"]),
-  methods: mapActions(["logout"])
+  mounted () {
+    this.connectSocket()
+  },
+  methods: mapActions(["logout", "connectSocket"])
 };
 </script>
 
