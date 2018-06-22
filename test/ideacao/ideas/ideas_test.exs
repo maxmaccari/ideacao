@@ -81,9 +81,9 @@ defmodule Ideacao.IdeasTest do
   describe "feedbacks" do
     alias Ideacao.Ideas.Feedback
 
-    @valid_attrs %{comment: "some comment", rate: 6}
-    @update_attrs %{comment: "some updated comment", rate: 7}
-    @invalid_attrs %{comment: nil, rate: -1}
+    @valid_attrs %{comment: "some comment", rating: 6}
+    @update_attrs %{comment: "some updated comment", rating: 7}
+    @invalid_attrs %{comment: nil, rating: -1}
 
     def feedback_fixture(attrs \\ %{}) do
       {:ok, feedback} =
@@ -134,7 +134,7 @@ defmodule Ideacao.IdeasTest do
       valid_attrs = Map.merge(@valid_attrs, %{user_id: user.id, idea_id: idea.id})
       assert {:ok, %Feedback{} = feedback} = Ideas.create_feedback(valid_attrs)
       assert feedback.comment == "some comment"
-      assert feedback.rate == 6
+      assert feedback.rating == 6
     end
 
     test "create_feedback/1 with invalid data returns error changeset" do
@@ -147,7 +147,7 @@ defmodule Ideacao.IdeasTest do
       assert {:ok, feedback} = Ideas.update_feedback(feedback, @update_attrs)
       assert %Feedback{} = feedback
       assert feedback.comment == "some updated comment"
-      assert feedback.rate == 7
+      assert feedback.rating == 7
     end
 
     test "update_feedback/2 with invalid data returns error changeset", %{user: user} do

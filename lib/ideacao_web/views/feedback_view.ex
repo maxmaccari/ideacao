@@ -12,7 +12,7 @@ defmodule IdeacaoWeb.FeedbackView do
 
   def render("feedback.json", %{feedback: feedback}) do
     %{id: feedback.id,
-      rate: feedback.rate,
+      rating: feedback.rating,
       comment: feedback.comment,
       user: %{
         id: feedback.user.id,

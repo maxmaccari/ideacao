@@ -8,7 +8,7 @@ defmodule Ideacao.Ideas.Feedback do
 
   schema "feedbacks" do
     field :comment, :string
-    field :rate, :integer
+    field :rating, :integer
     belongs_to :user, Ideacao.Accounts.User
     belongs_to :idea, Idea
 
@@ -18,9 +18,9 @@ defmodule Ideacao.Ideas.Feedback do
   @doc false
   def changeset(feedback, attrs) do
     feedback
-    |> cast(attrs, [:rate, :comment, :user_id, :idea_id])
-    |> validate_required([:user_id, :idea_id, :rate, :comment])
-    |> validate_inclusion(:rate, 0..10)
+    |> cast(attrs, [:rating, :comment, :user_id, :idea_id])
+    |> validate_required([:user_id, :idea_id, :rating, :comment])
+    |> validate_inclusion(:rating, 0..10)
     |> unique_constraint(:user_id, name: :feedbacks_user_id_idea_id_index)
   end
 

@@ -5,9 +5,9 @@ defmodule IdeacaoWeb.FeedbackControllerTest do
   alias Ideacao.Ideas.Feedback
 
   @idea_attrs %{description: "some description", title: "some title", problem: "some problem", target: "some target"}
-  @create_attrs %{comment: "some comment", rate: 6}
-  @update_attrs %{comment: "some updated comment", rate: 7}
-  @invalid_attrs %{comment: nil, rate: -1}
+  @create_attrs %{comment: "some comment", rating: 6}
+  @update_attrs %{comment: "some updated comment", rating: 7}
+  @invalid_attrs %{comment: nil, rating: -1}
 
   def fixture(:user) do
     timestamp = :os.system_time(:micro_seconds)
@@ -57,7 +57,7 @@ defmodule IdeacaoWeb.FeedbackControllerTest do
       assert json_response(conn, 200)["feedback"] == %{
         "id" => id,
         "comment" => "some comment",
-        "rate" => 6,
+        "rating" => 6,
         "user" => %{
           "id" => user.id,
           "name" => user.name
@@ -82,7 +82,7 @@ defmodule IdeacaoWeb.FeedbackControllerTest do
       assert json_response(conn, 200)["feedback"] == %{
         "id" => id,
         "comment" => "some updated comment",
-        "rate" => 7,
+        "rating" => 7,
         "user" => %{
           "id" => user.id,
           "name" => user.name
