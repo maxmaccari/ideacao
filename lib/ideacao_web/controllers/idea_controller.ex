@@ -16,23 +16,13 @@ defmodule IdeacaoWeb.IdeaController do
     idea_params = Map.put(idea_params, "author_id", author.id)
 
     with {:ok, %Idea{} = idea} <- Ideas.create_idea(idea_params) do
-      IdeacaoWeb.Endpoint.broadcast("ideas:lobby", "newIdea", %{
-        id: idea.id,
-        title: idea.title,
-        target: idea.target,
-        problem: idea.problem,
-        description: idea.description,
-        feedbacks: [],
-        author: %{
-          id: author.id,
-          name: author.name
-        }
-      })
+      idea = %{idea | author: author}
+      broadcast_new_idea(idea)
 
       conn
       |> put_status(:created)
       |> put_resp_header("location", idea_path(conn, :show, idea))
-      |> render("show.json", idea: Ideas.preload_author(idea))
+      |> render("show.json", idea: idea)
     end
   end
 
@@ -58,5 +48,20 @@ defmodule IdeacaoWeb.IdeaController do
     with {:ok, %Idea{}} <- Ideas.delete_idea(idea) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  defp broadcast_new_idea(idea) do
+    IdeacaoWeb.Endpoint.broadcast("ideas:lobby", "newIdea", %{
+      id: idea.id,
+      title: idea.title,
+      target: idea.target,
+      problem: idea.problem,
+      description: idea.description,
+      feedbacks: [],
+      author: %{
+        id: idea.author.id,
+        name: idea.author.name
+      }
+    })
   end
 end

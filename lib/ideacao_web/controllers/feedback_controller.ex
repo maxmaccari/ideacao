@@ -21,18 +21,7 @@ defmodule IdeacaoWeb.FeedbackController do
 
     with {:ok, %Feedback{} = feedback} <- Ideas.create_feedback(feedback_params) do
       feedback = Ideas.preload_user(feedback)
-
-      IdeacaoWeb.Endpoint.broadcast("ideas:lobby", "newFeedback", %{
-        feedback: %{
-          id: feedback.id,
-          rating: feedback.rating,
-          user: %{
-            id: feedback.user.id,
-            name: feedback.user.name
-          }
-        },
-        idea_id: feedback.idea_id
-      })
+      broadcast_new_feedback(feedback)
 
       conn
       |> put_status(:created)
@@ -76,5 +65,20 @@ defmodule IdeacaoWeb.FeedbackController do
         |> render(IdeacaoWeb.ErrorView, "error.json", message: "The user is not authorized to perform this action.")
         |> halt()
     end
+  end
+
+  defp broadcast_new_feedback(feedback) do
+    IdeacaoWeb.Endpoint.broadcast("ideas:lobby", "newFeedback", %{
+      feedback: %{
+        id: feedback.id,
+        rating: feedback.rating,
+        comment: feedback.comment,
+        user: %{
+          id: feedback.user.id,
+          name: feedback.user.name
+        }
+      },
+      idea_id: feedback.idea_id
+    })
   end
 end
